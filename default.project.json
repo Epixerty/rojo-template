@@ -1,0 +1,37 @@
+{
+  "name": "rojo-template",
+  "emitLegacyScripts": false,
+  "tree": {
+    "$className": "DataModel",
+
+    "ReplicatedStorage": {
+      "shared": {
+        "$path": "src/shared"
+      },
+      "client": {
+        "$path": "src/client"
+      },
+      "ui": {
+        "$path": "src/ui"
+      },
+      "packages": {
+        "$path": "Packages"
+      }
+    },
+
+    "ServerStorage": {
+      "server_modules": {
+        "$path": "src/server_modules"
+      },
+      "packages": {
+        "$path": "ServerPackages"
+      }
+    },
+
+    "ServerScriptService": {
+      "Server": {
+        "$path": "src/server"
+      }
+    }
+  }
+}
