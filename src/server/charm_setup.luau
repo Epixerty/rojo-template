@@ -1,3 +1,4 @@
+--!strict
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerStorage = game:GetService("ServerStorage")
 
@@ -21,14 +22,13 @@ function module.init()
 	}
 
 	syncer:connect(function(player, atoms)
-		atoms = table.clone(atoms)
-		atoms.data = table.clone(atoms.data)
+		local data = table.clone(atoms.data)
 
-		for name, atom in atoms.data do
-			atoms.data[name] = atom[player]
+		for name, atom: any in data do
+			data[name] = atom[player]
 		end
 
-		Network.PlayerSessionData.SyncAtom:FireClient(player, atoms.data)
+		Network.PlayerSessionData.SyncAtom:FireClient(player, data)
 	end)
 
 	Network.PlayerSessionData.RequestAtomData.OnServerEvent:Connect(function(player)
