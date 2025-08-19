@@ -33,25 +33,25 @@ function module.init()
 	end)
 
 	Profiles.Added:Connect(function(player, profile)
-		local data: PlayerAtoms.PlayersDataAtom = {
-			-- player data
+		local data: PlayerAtoms.PlayersDataAtom = {}
 
-			-- temporary
-		}
-
-		PlayerAtoms.playersData(function(state)
-			state = table.clone(state)
-			state[player] = data
-			return state
-		end)
+		for _, atom in PlayerAtoms :: { Charm.Atom<any> } do
+			atom(function(state)
+				state = table.clone(state)
+				state[player] = data
+				return state
+			end)
+		end
 	end)
 
 	Profiles.Removed:Connect(function(player)
-		PlayerAtoms.playersData(function(state)
-			state = table.clone(state)
-			state[player] = nil
-			return state
-		end)
+		for _, atom in PlayerAtoms :: { Charm.Atom<any> } do
+			atom(function(state)
+				state = table.clone(state)
+				state[player] = nil
+				return state
+			end)
+		end
 	end)
 end
 
