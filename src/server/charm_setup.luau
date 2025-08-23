@@ -37,6 +37,10 @@ function module.init()
 		local data: AtomTypes.PlayersDataAtom = {}
 
 		for _, atom in PlayerAtoms :: { Charm.Atom<any> } do
+			if not Charm.isAtom(atom) then
+				continue
+			end
+
 			atom(function(state)
 				state = table.clone(state)
 				state[player] = data
@@ -46,6 +50,10 @@ function module.init()
 	end)
 
 	Profiles.Removed:Connect(function(player)
+		if not Charm.isAtom(atom) then
+			continue
+		end
+
 		for _, atom in PlayerAtoms :: { Charm.Atom<any> } do
 			atom(function(state)
 				state = table.clone(state)
