@@ -6,6 +6,7 @@ local PlayerAtoms = require(ServerStorage.server_modules.player_atoms)
 local Profiles = require(ServerStorage.server_modules.profiles)
 local Charm = require(ReplicatedStorage.packages.charm)
 local CharmSync = require(ReplicatedStorage.packages.charm_sync)
+local AtomTypes = require(ReplicatedStorage.shared.atom_types)
 local Network = require(ReplicatedStorage.shared.network)
 
 local module = {}
@@ -33,7 +34,7 @@ function module.init()
 	end)
 
 	Profiles.Added:Connect(function(player, profile)
-		local data: PlayerAtoms.PlayersDataAtom = {}
+		local data: AtomTypes.PlayersDataAtom = {}
 
 		for _, atom in PlayerAtoms :: { Charm.Atom<any> } do
 			atom(function(state)
