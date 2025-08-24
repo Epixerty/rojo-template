@@ -1,4 +1,4 @@
-local Players = game:GetService("Players")
+--!strict
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Charm = require(ReplicatedStorage.packages.charm)
@@ -12,7 +12,10 @@ local function getPlayerData<T>(player: Player, atom: ServerAtom<T>): T
 end
 
 return {
-	UpdatePlayerAtom = function(player: Player, atom: Charm.Atom<any>, value: any)
+	GetPlayerAtom = function<T>(player: Player, atom: ServerAtom<T>): T
+		return (table.clone(getPlayerData(player, atom) :: any) :: any) :: T
+	end,
+	UpdatePlayerAtom = function<T>(player: Player, atom: ServerAtom<T>, value: T)
 		atom(function(state)
 			state = table.clone(state)
 			state[player] = value
@@ -20,12 +23,7 @@ return {
 		end)
 	end,
 	SubscribeToPlayerAtom = function<T>(player: Player, atom: ServerAtom<T>, callback: (state: T, oldState: T) -> ())
-		return Charm.observe(atom, function(_, name)
-			local player = Players:FindFirstChild(name)
-			if not player then
-				return
-			end
-
+		return Charm.observe(atom, function(_, player)
 			local function playerData()
 				return getPlayerData(player, atom)
 			end
