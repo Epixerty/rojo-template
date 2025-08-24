@@ -36,23 +36,19 @@ function module.init()
 	Profiles.Added:Connect(function(player, profile)
 		local data: AtomTypes.PlayersDataAtom = {}
 
-		for _, atom in PlayerAtoms :: { Charm.Atom<any> } do
-			if not Charm.isAtom(atom) then
-				continue
-			end
-
-			atom(function(state)
-				state = table.clone(state)
-				state[player] = data
-				return state
-			end)
-		end
+		PlayerAtoms.playersData(function(state)
+			state = table.clone(state)
+			state[player] = data
+			return state
+		end)
 	end)
 
 	Profiles.Removed:Connect(function(player)
 		if not Charm.isAtom(atom) then
 			continue
 		end
+
+		-- auto remove player from every server atom that has per-player data
 
 		for _, atom in PlayerAtoms :: { Charm.Atom<any> } do
 			atom(function(state)
